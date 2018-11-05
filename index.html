@@ -13,25 +13,15 @@
   </head>
   <body onload="fetchIssues()">
     <div class="container">
-      <h1>JS Issue Tracker <small>by CodingTheSmartWay.com</small></h1>
+      <h1>Knave Character Sheet
+        <br/>
+        <small>Changing text is fun!</small>
+      </h1>
       <div class="jumbotron">
-        <h3>Add New Issue:</h3>
-        <form id="issueInputForm">
+        <h3>Add New Item:</h3>
+        <form id="itemInputForm">
           <div class="form-group">
-            <label for="issueDescInput">Description</label>
-            <input type="text" class="form-control" id="issueDescInput" placeholder="Describe the issue ...">
-          </div>
-          <div class="form-group">
-            <label for="issueDescInput">Severity</label>
-             <select class="form-control" id="issueSeverityInput">
-              <option value="Low">Low</option>
-              <option value="Medium">Medium</option>
-              <option value="High">High</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="issueDescInput">Assigned To</label>
-            <input type="text" class="form-control" id="issueAssignedToInput" placeholder="Enter responsible ...">
+            <input type="text" class="form-control" id="issueDescInput" placeholder="Item name">
           </div>
           <button type="submit" class="btn btn-primary">Add</button>
         </form>
