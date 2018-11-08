@@ -1,87 +1,78 @@
-/*<div class="form-group">
-  <label for="issueDescInput">Severity</label>
-   <select class="form-control" id="issueSeverityInput">
-    <option value="Low">Low</option>
-    <option value="Medium">Medium</option>
-    <option value="High">High</option>
-  </select>
-</div>*/
+function fetchItems () {
+  var items = JSON.parse(localStorage.getItem('items'));
+  var itemsList = document.getElementById('itemsList');
 
-function fetchIssues () {
-  var issues = JSON.parse(localStorage.getItem('issues'));
-  var issuesList = document.getElementById('issuesList');
+  itemsList.innerHTML = '';
 
-  issuesList.innerHTML = '';
+  for (var i = 0; i < items.length; i++) {
+    var id = items[i].id;
+    var desc = items[i].description;
+    var status = items[i].status;
 
-  for (var i = 0; i < issues.length; i++) {
-    var id = issues[i].id;
-    var desc = issues[i].description;
-    var status = issues[i].status;
-
-    issuesList.innerHTML +=   '<div class="well">'+
-                              '<h6>Issue ID: ' + id + '</h6>'+
+    itemsList.innerHTML +=   '<div class="well">'+
+                              '<h6>Item ID: ' + id + '</h6>'+
                               '<p><span class="label label-info">' + status + '</span></p>'+
                               '<h3>' + desc + '</h3>'+
                               //'<span class="glyphicon glyphicon-user"></span> ' + assignedTo + '</p>'+
-                              '<a href="#" class="btn btn-warning" onclick="setStatusClosed(\''+id+'\')">Close</a> '+
-                              '<a href="#" class="btn btn-danger" onclick="deleteIssue(\''+id+'\')">Delete</a>'+
+                              '<a href="#" class="btn btn-warning" onclick="setStatusBroken(\''+id+'\')">Break</a> '+
+                              '<a href="#" class="btn btn-danger" onclick="deleteItem(\''+id+'\')">Delete</a>'+
                               '</div>';
   }
 }
 
-function saveIssue(e) {
-  var issueId = chance.guid();
-  var issueDesc = document.getElementById('issueDescInput').value;
-  var issueStatus = 'Open';
-  var issue = {
-    id: issueId,
-    description: issueDesc,
-    status: issueStatus
+function saveItem(e) {
+  var itemId = chance.guid();
+  var itemDesc = document.getElementById('itemDescInput').value;
+  var itemStatus = 'Intact';
+  var item = {
+    id: itemId,
+    description: itemDesc,
+    status: itemStatus
   }
 
-  if (localStorage.getItem('issues') === null) {
-    var issues = [];
-    issues.push(issue);
-    localStorage.setItem('issues', JSON.stringify(issues));
+  if (localStorage.getItem('items') === null) {
+    var items = [];
+    items.push(item);
+    localStorage.setItem('items', JSON.stringify(items));
   } else {
-    var issues = JSON.parse(localStorage.getItem('issues'));
-    issues.push(issue);
-    localStorage.setItem('issues', JSON.stringify(issues));
+    var items = JSON.parse(localStorage.getItem('items'));
+    items.push(item);
+    localStorage.setItem('items', JSON.stringify(items));
   }
 
   document.getElementById('itemInputForm').reset();
 
-  fetchIssues();
+  fetchItems();
 
   e.preventDefault();
 }
 
-function deleteIssue (id) {
-  var issues = JSON.parse(localStorage.getItem('issues'));
+function deleteItem (id) {
+  var items = JSON.parse(localStorage.getItem('items'));
 
-  for(var i = 0; i < issues.length; i++) {
-    if (issues[i].id == id) {
-      issues.splice(i, 1);
+  for(var i = 0; i < items.length; i++) {
+    if (items[i].id == id) {
+      items.splice(i, 1);
     }
   }
 
-  localStorage.setItem('issues', JSON.stringify(issues));
+  localStorage.setItem('items', JSON.stringify(items));
 
-  fetchIssues();
+  fetchItems();
 }
 
-function setStatusClosed (id) {
-  var issues = JSON.parse(localStorage.getItem('issues'));
+function setStatusBroken (id) {
+  var items = JSON.parse(localStorage.getItem('items'));
 
-  for(var i = 0; i < issues.length; i++) {
-    if (issues[i].id == id) {
-      issues[i].status = "Closed";
+  for(var i = 0; i < items.length; i++) {
+    if (items[i].id == id) {
+      items[i].status = "Broken";
     }
   }
 
-  localStorage.setItem('issues', JSON.stringify(issues));
+  localStorage.setItem('items', JSON.stringify(items));
 
-  fetchIssues();
+  fetchItems();
 }
 
-document.getElementById('itemInputForm').addEventListener('submit', saveIssue);
+document.getElementById('itemInputForm').addEventListener('submit', saveItem);
