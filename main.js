@@ -75,4 +75,8 @@ function setStatusBroken (id) {
   fetchItems();
 }
 
+function loadCharacter() {
+  fetchItems();
+}
+
 document.getElementById('itemInputForm').addEventListener('submit', saveItem);
