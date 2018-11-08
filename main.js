@@ -20,6 +20,46 @@ function fetchItems () {
   }
 }
 
+function fetchHp() {
+
+  if(localStorage.getItem('maxHp') === null) {
+    rollHp(3);
+  }
+
+  var currentHp = JSON.parse(localStorage.getItem('currentHp'));
+  var maxHp = JSON.parse(localStorage.getItem('maxHp'));
+
+  hpSection = document.getElementById('character-hp');
+  hpSection.innerHTML = '<div>' +
+    '<h4> Current HP: ' + currentHp + '     ' + 
+        '<a href="#" class="btn btn-danger" onclick="modifyHp(-5)">-5</a>' +
+    '<a href="#" class="btn btn-danger" onclick="modifyHp(-1)">-1</a>' +
+    '<a href="#" class="btn btn-success" onclick="modifyHp(1)">+1</a>' +
+    '<a href="#" class="btn btn-success" onclick="modifyHp(5)">+5</a>' +
+    '</h6>' +
+    '<h4> Max HP: ' + maxHp + '</h6>' +
+    '</div>';
+}
+
+function modifyHp(change) {
+  if(localStorage.getItem('maxHp') === null) {
+    rollHp(3);
+  }
+  var currentHp = JSON.parse(localStorage.getItem('currentHp'));
+  currentHp += change;
+  localStorage.setItem('currentHp', JSON.stringify(currentHp));
+  fetchHp();
+}
+
+function rollHp(level) {
+  var hp = 0;
+  for(var i=0; i<level; i++) {
+    hp += Math.floor((Math.random() * 8) + 1);
+  }
+  localStorage.setItem('currentHp', JSON.stringify(hp));
+  localStorage.setItem('maxHp', JSON.stringify(hp));
+}
+
 function saveItem(e) {
   var itemId = chance.guid();
   var itemDesc = document.getElementById('itemDescInput').value;
@@ -76,6 +116,7 @@ function setStatusBroken (id) {
 }
 
 function loadCharacter() {
+  fetchHp();
   fetchItems();
 }
 
